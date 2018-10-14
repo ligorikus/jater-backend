@@ -31,3 +31,6 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
 });
+Route::group(['middleware' => 'jwt.auth'], function (){
+    Route::resource('products', 'ProductController');  
+});
