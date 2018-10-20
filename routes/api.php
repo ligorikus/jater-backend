@@ -13,16 +13,10 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('register','Auth\RegisterController@create');
 
 Route::group([
-
-    'middleware' => 'api',
-    'namespace' => 'App\Http\Controllers',
     'prefix' => 'auth'
-
 ], function ($router) {
 
     Route::post('login', 'AuthController@login');
@@ -31,6 +25,7 @@ Route::group([
     Route::post('me', 'AuthController@me');
 
 });
-Route::group(['middleware' => 'jwt.auth'], function (){
+
+//Route::group(['middleware' => 'jwt.auth'], function (){
     Route::resource('products', 'ProductController');  
-});
+//});
