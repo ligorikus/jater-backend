@@ -17,15 +17,23 @@ Route::post('register','Auth\RegisterController@create');
 
 Route::group([
     'prefix' => 'auth'
-], function ($router) {
+], function () {
 
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
+    Route::post('signin', 'AuthController@login');
+    Route::post('signout', 'AuthController@logout');
     Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-
 });
 
-//Route::group(['middleware' => 'jwt.auth'], function (){
-    Route::resource('products', 'ProductController');  
-//});
+Route::get('products', 'ProductController@index');
+Route::get('products/{product}', 'ProductController@show');
+Route::get('categories', 'CategoryController@index');
+
+Route::group(['middleware' => 'jwt.auth',], function () {
+    Route::group(['namespace' => ''], function () {
+        Route::post('products', 'ProductController@store');
+        Route::put('products/{product}', 'ProductController@update');
+        Route::delete('products/{product}', 'ProductController@delete');
+    });
+
+    Route::get('me', 'AuthController@me');
+});

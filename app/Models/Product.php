@@ -10,13 +10,11 @@ class Product extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'title',
-        'description',
-        'price',
-        'rent_price'
+        'title', 'description', 'price', ''
     ];
 
-    protected $guarded = [
-        'id'
-    ];
+    public function owner()
+    {
+        return $this->belongsTo(User::class, 'owner_id');
+    }
 }

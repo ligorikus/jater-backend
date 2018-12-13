@@ -12,7 +12,7 @@ class User extends Authenticatable implements JWTSubject
     use Notifiable;
 
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'password', 'phone', 'date_start', 'date_end'
     ];
 
     /**
@@ -42,5 +42,10 @@ class User extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims()
     {
         return [];
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Product::class);
     }
 }

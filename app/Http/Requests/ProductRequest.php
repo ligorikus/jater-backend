@@ -14,8 +14,9 @@ class ProductRequest extends Request
         return [
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:1',
-            'rent_price' => 'required|numeric|min:1'
+            'price' => 'required|integer|min:1',
+            'date_start' => 'required|date',
+            'date_end' => 'required|date'
         ];
     }
 }

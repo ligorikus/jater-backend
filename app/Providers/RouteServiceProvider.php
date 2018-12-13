@@ -24,8 +24,8 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        Route::model('product', Product::class);
-
+        Route::model('user', \App\Models\User::class);
+        Route::model('product', \App\Models\Product::class);
         parent::boot();
     }
 
@@ -66,8 +66,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     protected function mapApiRoutes()
     {
-        Route::prefix('api')
-             ->middleware('api')
+        Route::middleware('api')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }

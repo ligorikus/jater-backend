@@ -4,35 +4,37 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
 use App\Models\Product;
+use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return Product[]|\Illuminate\Database\Eloquent\Collection
+     * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return Product::all();
+        $products = Product::paginate(20);
+        return response()->json($products, 200);
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param ProductRequest $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function store(ProductRequest $request)
     {
-        return Product::create($request->all());
+        return $this->guard()->user()->products()->create($request->all());
     }
 
     /**
      * Display the specified resource.
      *
-     * @param Product $product
-     * @return Product
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
     public function show(Product $product)
     {
@@ -42,26 +44,23 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param ProductRequest $request
-     * @param Product $product
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(ProductRequest $request, Product $product)
     {
-        $status = $product->update($request->all());
-        return response()->json(['status' => $status], 200);
+        return $product->update($request->all());
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param Product $product
+     * @param  int  $id
      * @return \Illuminate\Http\Response
-     * @throws \Exception
      */
     public function destroy(Product $product)
     {
-        $status = $product->delete();
-        return response()->json(['status' => $status], 200);
+        $product->delete();
     }
 }
